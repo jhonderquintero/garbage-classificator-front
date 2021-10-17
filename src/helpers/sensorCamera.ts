@@ -13,7 +13,7 @@ export const sensorCamera = async (
 
 export const takePicture = async (ip: string) => {
   const url = `${ip}/devices/image-generator`;
-  const image = await serverFetch(url, 'post');
+  const image = await serverFetch(url, 'post', {}, undefined, false);
 
   return image;
 };
@@ -22,7 +22,7 @@ export const takePicture = async (ip: string) => {
 export const objectDetection = async (
   ip: string,
   status: 'HIGH' | 'LOW' = 'LOW',
-  timeout: string = "60000",
+  timeout: string = "600",
   pinSensor: string = "38",
   pinMotor: string = "36",
   pinLights: string = "33",
@@ -31,7 +31,7 @@ export const objectDetection = async (
   if (isDetected) await activeMotor(ip, status, pinMotor);
   await activeMotor(ip, 'HIGH', pinLights);
 
-  const image: File = await takePicture(ip);
+  const image: any = await takePicture(ip);
   console.log(image);
   await activeMotor(ip, 'LOW', pinLights);
   

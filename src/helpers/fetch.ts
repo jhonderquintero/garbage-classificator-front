@@ -5,7 +5,8 @@ export const serverFetch: any = async (
   headers: object = {
     "Content-Type": "application/json",
     // "Access-Control-Allow-Origin": "*",
-  }
+  },
+  parseJSON: boolean = true,
 ) => {
   var config: any = {
     method,
@@ -15,5 +16,9 @@ export const serverFetch: any = async (
   };
 
   const response = await fetch(url, config);
-  return await response.json();
+  if (parseJSON) {
+    return await response.json();
+  }
+
+  return response;
 };

@@ -12,7 +12,7 @@ export const sensorMotor = async (
 
 export const activeMotor = async (ip: string, status: 'HIGH' | 'LOW', pin: string) => {
   const url = `${ip}/devices/setGPIO`;
-  const { done } = await serverFetch(url, "post", status, pin);
+  const { done } = await serverFetch(url, "POST", { status, pin });
   return done;
 };
 

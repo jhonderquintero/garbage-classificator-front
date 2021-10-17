@@ -10,7 +10,7 @@ export const App: React.FC = (): JSX.Element => {
   >(undefined);
 
   const [pageState, setPageState] = useState(0);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<null|string>(null);
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -32,11 +32,17 @@ export const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (pageState === 1 && devicesIp !== undefined) {
-      objectFirstDetection(devicesIp, "HIGH").then(() => {
-        setPageState(2)
-        return objectCameraDetection(devicesIp);
-      }).then((file) => {
-        console.log('Imagen promise', file);
+      // objectFirstDetection(devicesIp, "HIGH").then(() => {
+        // setPageState(2)
+      // return
+      objectCameraDetection(devicesIp)
+    // })
+    .then(async (file) => {
+      console.log('Imagen promise', file);
+      const blob = await file.blob();
+      const url = URL.createObjectURL(blob);
+      console.log(url);
+      setFile(url);
         setPageState(3)
         // Call NN
       })
@@ -91,7 +97,7 @@ export const App: React.FC = (): JSX.Element => {
       ) : null}
 
       {
-        file? <h1>hola</h1> : null
+        file? <img src={file} /> : null
       }
     </div>
   );
