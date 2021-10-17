@@ -29,11 +29,11 @@ export const objectDetection = async (
 ) => {
   const isDetected = await sensorCamera(ip, timeout, pinSensor);
   if (isDetected) await activeMotor(ip, status, pinMotor);
-  await activeMotor(ip, 'HIGH', pinLights);
+  await activeMotor(ip, 'LOW', pinLights);
 
   const image: any = await takePicture(ip);
   console.log(image);
-  await activeMotor(ip, 'LOW', pinLights);
+  await activeMotor(ip, 'HIGH', pinLights);
   
   return image;
 };
