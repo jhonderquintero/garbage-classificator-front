@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
+import { GlobalStateContextProvider } from "./context/GlobalStateContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <GlobalStateContextProvider>
+        <App />
+      </GlobalStateContextProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")
