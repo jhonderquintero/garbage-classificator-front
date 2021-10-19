@@ -53,6 +53,7 @@ export const ConfigForm = () => {
 
     if (correctDevicesIp && notNullNeuralNetworkIp) {
       setFormError(null);
+      globalState.set.setClassificationState("1");
     }
   };
 
@@ -119,8 +120,10 @@ export const ConfigForm = () => {
               />
             </div>
           </div>
-          <p className="text-red-500 text-right">{formError?.devicesIpError }</p>
-          <p className="text-red-500 text-right">{formError?.neuralNetworkIp}</p>
+          <p className="text-red-500 text-right">{formError?.devicesIpError}</p>
+          <p className="text-red-500 text-right">
+            {formError?.neuralNetworkIp}
+          </p>
 
           <div className="md:flex md:items-center">
             <div className="md:w-1/3"></div>
@@ -129,7 +132,7 @@ export const ConfigForm = () => {
                 className="mt-4 shadow bg-blueGray-700 hover:bg-blueGray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                 type="submit"
               >
-                Iniciar Clasificación
+                Guardar Datos
               </button>
             </div>
           </div>

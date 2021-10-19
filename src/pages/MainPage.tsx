@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import { ConfigForm } from "../components/Content/ConfigForm";
 import { Content } from "../components/Content/Content";
-import { LottieCard } from "../components/Content/LottieCard";
 import { GridWrapper } from "../components/GridWrapper";
+import { LottieCard } from "../components/Content/LottieCard";
+import { MainSVG } from "../styles/svgs/MainSVG";
+import {
+  IGlobalState,
+  useGlobalStatecontext,
+} from "../context/GlobalStateContext";
 import Sidebar from "../components/Sidebar";
 import WelcomeBanner from "../components/WelcomeBanner";
-import { MainSVG } from "../styles/svgs/MainSVG";
+import { ConfigInfo } from "../components/Content/ConfigInfo";
 
 export const MainPage = () => {
   // Design pattern recommended by Kent C. Dodds (Google Expert and creator of React Testing Library)
   // https://epicreact.dev/one-react-mistake-thats-slowing-you-down/
 
   const [sidebarBoolean, setSidebarBoolean] = useState(true);
+  const globalState: IGlobalState = useGlobalStatecontext();
+
+  const { classificationState } = globalState.get;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -30,7 +38,7 @@ export const MainPage = () => {
         }
         CentralContent={
           <GridWrapper>
-            <ConfigForm />
+            {classificationState === "0" ? <ConfigForm /> : <ConfigInfo />}
             <LottieCard />
           </GridWrapper>
         }
