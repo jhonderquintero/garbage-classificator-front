@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ConfigForm } from "../components/Content/ConfigForm";
 import { Content } from "../components/Content/Content";
+import { LottieCard } from "../components/Content/LottieCard";
 import { GridWrapper } from "../components/GridWrapper";
 import Sidebar from "../components/Sidebar";
 import WelcomeBanner from "../components/WelcomeBanner";
@@ -30,6 +31,7 @@ export const MainPage = () => {
         CentralContent={
           <GridWrapper>
             <ConfigForm />
+            <LottieCard />
           </GridWrapper>
         }
       />
