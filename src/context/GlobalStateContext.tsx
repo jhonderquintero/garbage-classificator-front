@@ -21,18 +21,27 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
   const [neuralNetworkIp, setNeuralNetworkIp, removeNeuralNetworkIp] =
     useLocalStorageState("neuralnetwork-ip", "");
 
+  const [
+    classificationState,
+    setClassificationState,
+    removeClassificationState,
+  ] = useLocalStorageState("classification-state", "0");
+
   const state: IGlobalState = {
     // Getters
     get: {
       devicesIp,
       neuralNetworkIp,
+      classificationState,
     },
     // Setters
     set: {
       setDevicesIp,
       setNeuralNetworkIp,
+      setClassificationState,
       removeDevicesIp,
       removeNeuralNetworkIp,
+      removeClassificationState,
     },
   };
 
@@ -51,8 +60,9 @@ export interface IGlobalState {
 }
 
 interface GlobalStateGetters {
-  devicesIp: Function;
-  neuralNetworkIp: Function;
+  devicesIp: string;
+  neuralNetworkIp: string;
+  classificationState: string;
 }
 
 interface GlobalStateSetters {
@@ -60,4 +70,6 @@ interface GlobalStateSetters {
   setNeuralNetworkIp: Function;
   removeDevicesIp: Function;
   removeNeuralNetworkIp: Function;
+  setClassificationState: Function;
+  removeClassificationState: Function;
 }
