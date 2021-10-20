@@ -40,7 +40,7 @@ export const ConfigInfo = () => {
             </span>
           </p>
 
-          {globalState.get.classificationState !== "1" ? (
+          {globalState.get.classificationState !== processState[1] ? (
             <p className="block text-gray-500 text-left mb-1 mt-4 md:mb-0 pr-4">
               <span className="font-bold">
                 {" "}
@@ -50,7 +50,7 @@ export const ConfigInfo = () => {
           ) : null}
         </div>
 
-        {globalState.get.classificationState !== "1" ? (
+        {globalState.get.classificationState !== processState[1] ? (
           <div className="block mt-2">
             <button
               className="mt-4 shadow bg-blueGray-700 hover:bg-blueGray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"

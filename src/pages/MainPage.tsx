@@ -11,6 +11,7 @@ import {
 import Sidebar from "../components/Sidebar";
 import WelcomeBanner from "../components/WelcomeBanner";
 import { ConfigInfo } from "../components/Content/ConfigInfo";
+import { processState } from "../helpers/types";
 
 export const MainPage = () => {
   // Design pattern recommended by Kent C. Dodds (Google Expert and creator of React Testing Library)
@@ -38,7 +39,7 @@ export const MainPage = () => {
         }
         CentralContent={
           <GridWrapper>
-            {classificationState === "0" ? <ConfigForm /> : <ConfigInfo />}
+            {classificationState === processState[0] ? <ConfigForm /> : <ConfigInfo />}
             <LottieCard />
           </GridWrapper>
         }
