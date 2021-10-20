@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { processState } from "../helpers/types";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 const GlobalStateContext = createContext(null);
@@ -25,7 +26,7 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
     classificationState,
     setClassificationState,
     removeClassificationState,
-  ] = useLocalStorageState("classification-state", "0");
+  ] = useLocalStorageState("classification-state", processState[0]);
 
   const state: IGlobalState = {
     // Getters

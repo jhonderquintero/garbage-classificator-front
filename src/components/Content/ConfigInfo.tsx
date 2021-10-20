@@ -3,20 +3,21 @@ import {
   IGlobalState,
   useGlobalStatecontext,
 } from "../../context/GlobalStateContext";
+import { processState } from "../../helpers/types";
 
 export const ConfigInfo = () => {
   const globalState: IGlobalState = useGlobalStatecontext();
   const history = useHistory();
 
   const handleProcessBegin = () => {
-    globalState.set.setClassificationState("2");
+    globalState.set.setClassificationState(processState[2]);
     history.push("dashboard");
   };
 
   const handleIPReset = () => {
     globalState.set.setClassificationState("");
     globalState.set.setNeuralNetworkIp("");
-    globalState.set.setClassificationState("0");
+    globalState.set.setClassificationState(processState[0]);
   };
 
   return (

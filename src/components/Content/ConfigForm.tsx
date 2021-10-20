@@ -3,6 +3,7 @@ import {
   IGlobalState,
   useGlobalStatecontext,
 } from "../../context/GlobalStateContext";
+import { processState } from "../../helpers/types";
 import { validateIP } from "../../helpers/validation";
 
 export const ConfigForm = () => {
@@ -53,7 +54,7 @@ export const ConfigForm = () => {
 
     if (correctDevicesIp && notNullNeuralNetworkIp) {
       setFormError(null);
-      globalState.set.setClassificationState("1");
+      globalState.set.setClassificationState(processState[1]);
     }
   };
 
