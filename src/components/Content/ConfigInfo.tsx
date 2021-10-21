@@ -14,6 +14,10 @@ export const ConfigInfo = () => {
     history.push("dashboard");
   };
 
+  const handleViewProcessClick = () => {
+    history.push("dashboard");
+  };
+
   const handleIPReset = () => {
     globalState.set.setClassificationState("");
     globalState.set.setNeuralNetworkIp("");
@@ -54,7 +58,7 @@ export const ConfigInfo = () => {
           <div className="block mt-2">
             <button
               className="mt-4 shadow bg-blueGray-700 hover:bg-blueGray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              onClick={handleProcessBegin}
+              onClick={handleViewProcessClick}
             >
               Ver Estado Actual del Proceso
             </button>

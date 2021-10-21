@@ -21,7 +21,10 @@ export const Dashboard = () => {
   const globalState: IGlobalState = useGlobalStatecontext();
 
   useEffect(() => {
-    if (globalState.get.classificationState === processState[0]) {
+    if (
+      globalState.get.classificationState === processState[0] ||
+      globalState.get.classificationState === processState[1]
+    ) {
       history.replace("/");
     }
   }, [globalState.get.classificationState, history]);
@@ -43,10 +46,15 @@ export const Dashboard = () => {
         }
         CentralContent={
           <GridWrapper>
-            <ProcessCard spanSize="7"/>
             <MainProcessCard />
             <SecondaryProcessCard />
           </GridWrapper>
+        }
+        Footer={
+          <ProcessCard
+            spanSize="12"
+            title="Integrantes: Jhonder Quintero, Omer Marquez, Diego Campos"
+          />
         }
       />
     </div>

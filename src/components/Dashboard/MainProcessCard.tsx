@@ -1,26 +1,112 @@
-import Lottie from "react-lottie";
-
-import LottieAnimation from "../../styles/lottiefiles/data.json";
+import { SyntheticEvent, useEffect, useState } from "react";
+import {
+  IGlobalState,
+  useGlobalStatecontext,
+} from "../../context/GlobalStateContext";
+import { processState } from "../../helpers/types";
+import LottieAnimation1 from "../../styles/lottiefiles/data.json";
+import { LottieComponent } from "./LottieComponent";
 
 export const MainProcessCard = () => {
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: LottieAnimation,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
+  const globalState: IGlobalState = useGlobalStatecontext();
+
+  const [actualLottieAnimation, setActualLottieAnimation] = useState(
+    () => LottieAnimation1
+  );
+
+  const handleNextClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    if (globalState.get.classificationState === processState[2]) {
+      globalState.set.setClassificationState(processState[3]);
+    }
+    if (globalState.get.classificationState === processState[3]) {
+      globalState.set.setClassificationState(processState[4]);
+    }
+    if (globalState.get.classificationState === processState[4]) {
+      globalState.set.setClassificationState(processState[5]);
+    }
+    if (globalState.get.classificationState === processState[5]) {
+      globalState.set.setClassificationState(processState[6]);
+    }
+    if (globalState.get.classificationState === processState[6]) {
+      globalState.set.setClassificationState(processState[7]);
+    }
+    if (globalState.get.classificationState === processState[7]) {
+      globalState.set.setClassificationState(processState[8]);
+    }
+    if (globalState.get.classificationState === processState[8]) {
+      globalState.set.setClassificationState(processState[9]);
+    }
+    if (globalState.get.classificationState === processState[9]) {
+      globalState.set.setClassificationState(processState[10]);
+    }
+    if (globalState.get.classificationState === processState[10]) {
+      globalState.set.setClassificationState(processState[11]);
+    }
+    if (globalState.get.classificationState === processState[11]) {
+      globalState.set.setClassificationState(processState[12]);
+    }
+    if (globalState.get.classificationState === processState[12]) {
+      globalState.set.setClassificationState(processState[13]);
+    }
+    if (globalState.get.classificationState === processState[13]) {
+      globalState.set.setClassificationState(processState[2]);
+    }
   };
+
+  useEffect(() => {
+    console.log(globalState.get.classificationState);
+  }, [globalState.get.classificationState]);
+
   return (
     <div className="bg-blue col-span-8 bg-white shadow-lg rounded-sm border border-gray-200 flex flex-col justify-center p-4">
       <div>
         <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center">
-          Detectando material...
+          {globalState.get.classificationState === processState[2]
+            ? "Detectando material..."
+            : null}
+          {globalState.get.classificationState === processState[3]
+            ? "Material Detectado"
+            : null}
+          {globalState.get.classificationState === processState[4] ||
+          globalState.get.classificationState === processState[5]
+            ? "Leyendo Sensor Infrarrojo en Cámara..."
+            : null}
+          {globalState.get.classificationState === processState[6]
+            ? "Encendiendo Luces LED..."
+            : null}
+          {globalState.get.classificationState === processState[7]
+            ? "Capturando Imagen..."
+            : null}
+          {globalState.get.classificationState === processState[8]
+            ? "Inteligencia Artificial Analizando Imagen..."
+            : null}
+          {globalState.get.classificationState === processState[9]
+            ? "Encendiendo Motor..."
+            : null}
+          {globalState.get.classificationState === processState[10]
+            ? `Leyendo Sensor ${"Material"}`
+            : null}
+          {globalState.get.classificationState === processState[11] ||
+          globalState.get.classificationState === processState[12]
+            ? `Activando Servomotor ${"Material"}`
+            : null}
+          {globalState.get.classificationState === processState[13]
+            ? `Material Clasificado: ${"Material"} `
+            : null}
         </h2>
       </div>
-      <div>
-        <Lottie options={defaultOptions} height={250} width={250} />
-      </div>
+
+      <LottieComponent
+        width={250}
+        height={250}
+        LottieAnimation={actualLottieAnimation}
+      />
+
+      <button className="bg-blue-500" onClick={handleNextClick}>
+        Next
+      </button>
     </div>
   );
 };
