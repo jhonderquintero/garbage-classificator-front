@@ -1,10 +1,10 @@
-import { serverFetch } from "./fetch";
+import { serverFetch } from "../helpers/fetch";
 import { activeMotor } from "./sensorMotor";
 
 export const sensorCamera = async (
   ip: string,
   timeout: string = "60000",
-  pin: string = "36"
+  pin: string = "38"
 ) => {
   const url = `${ip}/devices/IRsensor?pin=${pin}&timeout=${timeout}`;
   const { detection } = await serverFetch(url);
@@ -16,6 +16,10 @@ export const takePicture = async (ip: string) => {
   const image = await serverFetch(url, 'post', {}, undefined, false);
 
   return image;
+};
+
+export const LEDPin = async (ip: string, status: 'HIGH' | 'LOW', pin: string = '33') => {
+  await activeMotor(ip, status, pin);
 };
 
 

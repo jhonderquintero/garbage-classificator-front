@@ -3,6 +3,7 @@ import {
   IGlobalState,
   useGlobalStatecontext,
 } from "../../context/GlobalStateContext";
+import { DeviceCommunication } from "../../helpers/DeviceCommunication";
 import { processState } from "../../helpers/types";
 import LottieAnimation1 from "../../styles/lottiefiles/data.json";
 import { LottieComponent } from "./LottieComponent";
@@ -54,6 +55,37 @@ export const MainProcessCard = () => {
       globalState.set.setClassificationState(processState[2]);
     }
   };
+
+  useEffect(() => { 
+    let instance: null | DeviceCommunication = null;
+    if (globalState.get.deviceCommunicationInstance) {
+      instance = globalState.get.deviceCommunicationInstance;
+    } else {
+      instance = new DeviceCommunication(globalState.get.devicesIp, globalState.get.neuralNetworkIp);
+      instance.init();
+    };
+
+    const callback = (event: any) => {
+      const { stage } = event.detail;
+      globalState.set.setClassificationState(stage);
+    };
+
+    const errorCallback = (event: any) => {
+      const { error } = event.detail;
+      console.error('Error in the listener:', error);
+    };
+
+    instance.addEventListener('next', callback);
+    instance.addEventListener('error', errorCallback);
+
+    // Remove listeners when component unmount, class will still be running in the backgound
+    function cleanUp() {
+      instance?.removeEventListener('next', callback);
+      instance?.removeEventListener('error', errorCallback);
+    }
+
+    return cleanUp;
+  }, [globalState.get.deviceCommunicationInstance, globalState.get.devicesIp, globalState.get.neuralNetworkIp, globalState.set]);
 
   useEffect(() => {
     console.log(globalState.get.classificationState);

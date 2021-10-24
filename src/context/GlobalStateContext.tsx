@@ -1,4 +1,5 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
+import { DeviceCommunication } from "../helpers/DeviceCommunication";
 import { processState } from "../helpers/types";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
@@ -28,12 +29,15 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
     removeClassificationState,
   ] = useLocalStorageState("classification-state", processState[0]);
 
+  const [deviceCommunicationInstance, setDeviceCommunicationInstance] = useState <null| DeviceCommunication>(null);
+
   const state: IGlobalState = {
     // Getters
     get: {
       devicesIp,
       neuralNetworkIp,
       classificationState,
+      deviceCommunicationInstance
     },
     // Setters
     set: {
@@ -43,6 +47,7 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
       removeDevicesIp,
       removeNeuralNetworkIp,
       removeClassificationState,
+      setDeviceCommunicationInstance
     },
   };
 
@@ -64,6 +69,7 @@ interface GlobalStateGetters {
   devicesIp: string;
   neuralNetworkIp: string;
   classificationState: string;
+  deviceCommunicationInstance: null | DeviceCommunication;
 }
 
 interface GlobalStateSetters {
@@ -73,4 +79,5 @@ interface GlobalStateSetters {
   removeNeuralNetworkIp: Function;
   setClassificationState: Function;
   removeClassificationState: Function;
+  setDeviceCommunicationInstance: Function;
 }

@@ -1,8 +1,12 @@
-export const processState = {
+type state = {
+  [key: number]: string;
+}
+
+export const processState: state = {
   0: "[NOT INITIALIZED]",
   1: "[IP ASSIGNED]",
   2: "[WAITING OBJECT DETECTION]",
-  3: "[TURNING ON MOTOR]",
+  3: "[TURNING ON MOTOR]", 
   4: "[READING IR CAM SENSOR]",
   5: "[TURNING OFF MOTOR]",
   6: "[TURNING ON LEDS]",
