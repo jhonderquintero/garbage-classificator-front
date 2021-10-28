@@ -10,7 +10,7 @@ import { LottieComponent } from "./LottieComponent";
 
 export const MainProcessCard = () => {
   const globalState: IGlobalState = useGlobalStatecontext();
-
+  const [imgUrl, setImgUrl] = useState<string | null>('https://ricardoarriaga.com/wp-content/uploads/2015/03/Caja-de-canal-doble.jpg');
   const [actualLottieAnimation, setActualLottieAnimation] = useState(
     () => LottieAnimation1
   );
@@ -34,6 +34,9 @@ export const MainProcessCard = () => {
     const callback = (event: any) => {
       const { stage } = event.detail;
       globalState.set.setClassificationState(stage);
+
+      // Reset Image
+      if (stage === processState[2]) setImgUrl(null);
     };
 
     const errorCallback = (event: any) => {
@@ -58,9 +61,25 @@ export const MainProcessCard = () => {
   }, [globalState.get.classificationState]);
 
   return (
-    <div className="bg-blue col-span-8 bg-white shadow-lg rounded-sm border border-gray-200 flex flex-col justify-center p-4">
-      <div>
-        <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center">
+    <div className="img-container bg-blue col-span-8 bg-white shadow-lg rounded-sm border border-gray-200 flex flex-col justify-center p-4">
+      <div style={{ width: 'fit-content' }} className="mr-auto">
+        {
+          imgUrl && (
+            <>
+              <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center">Imagen Detectada</h2>
+              <img
+                alt="Material Detectado"
+                src={imgUrl}
+                width="328"
+                height="246"
+              />
+            </>
+          )
+        }
+      </div>
+
+      <div style={{ width: 'fit-content'}}>
+        <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center m-auto">
           {globalState.get.classificationState === processState[2]
             ? "Detectando material..."
             : null}
@@ -94,13 +113,13 @@ export const MainProcessCard = () => {
             ? `Material Clasificado: ${"Material"} `
             : null}
         </h2>
-      </div>
 
-      <LottieComponent
-        width={250}
-        height={250}
-        LottieAnimation={actualLottieAnimation}
-      />
+        <LottieComponent
+          width={250}
+          height={250}
+          LottieAnimation={actualLottieAnimation}
+        />
+      </div>
     </div>
   );
 };
