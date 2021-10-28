@@ -25,6 +25,8 @@ export const MainProcessCard = () => {
         globalState.get.neuralNetworkIp,
         globalState.get.classificationState,
       );
+
+      globalState.set.setDeviceCommunicationInstance(instance);
     };
 
     instance.init();

@@ -10,7 +10,10 @@ export const ConfigInfo = () => {
   const history = useHistory();
 
   const handleProcessBegin = () => {
-    globalState.set.setClassificationState(processState[2]);
+    if (globalState.get.classificationState === processState[1]) {
+      // Set initial state to init classification
+      globalState.set.setClassificationState(processState[2]);
+    }
     history.push("dashboard");
   };
 
@@ -22,8 +25,8 @@ export const ConfigInfo = () => {
     if (globalState.get.deviceCommunicationInstance) {
       globalState.get.deviceCommunicationInstance.stop();
     }
-    globalState.set.setClassificationState("");
-    globalState.set.setNeuralNetworkIp("");
+    globalState.set.removeDevicesIp();
+    globalState.set.removeNeuralNetworkIp("");
     // globalState.set.setClassificationState(processState[0]);
   };
 
@@ -69,7 +72,7 @@ export const ConfigInfo = () => {
               onClick={handleIPReset}
               className="mt-4 ml-3 shadow bg-red-600 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             >
-              Pausar Proceso
+              Pausar Proceso y reasignar IPs
             </button>
           </div>
         ) : (

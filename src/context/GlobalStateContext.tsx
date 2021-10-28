@@ -29,7 +29,7 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
     removeClassificationState,
   ] = useLocalStorageState("classification-state", processState[0]);
 
-  const [deviceCommunicationInstance, setDeviceCommunicationInstance] = useState <null| DeviceCommunication>(null);
+  const [deviceCommunicationInstance, setDeviceCommunicationInstance] = useState<DeviceCommunication| null>(null);
 
   const state: IGlobalState = {
     // Getters

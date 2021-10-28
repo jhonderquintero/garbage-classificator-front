@@ -20,7 +20,7 @@ export const MainPage = () => {
   const [sidebarBoolean, setSidebarBoolean] = useState(true);
   const globalState: IGlobalState = useGlobalStatecontext();
 
-  const { classificationState } = globalState.get;
+  const { devicesIp, neuralNetworkIp } = globalState.get;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -39,7 +39,7 @@ export const MainPage = () => {
         }
         CentralContent={
           <GridWrapper>
-            {classificationState === processState[0] ? <ConfigForm /> : <ConfigInfo />}
+            {(devicesIp === '' && neuralNetworkIp === '')? <ConfigForm /> : <ConfigInfo />}
             <LottieCard />
           </GridWrapper>
         }
