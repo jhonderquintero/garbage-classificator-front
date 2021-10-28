@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 const WelcomeBanner: React.FC<IWelcomeBanner> = ({
   messageTitle,
@@ -17,11 +17,12 @@ const WelcomeBanner: React.FC<IWelcomeBanner> = ({
       </div>
 
       {/* Content */}
-      <div className="relative">
-        <h1 className="text-2xl md:text-3xl text-gray-800 font-bold mb-1">
+      <div className="relative d-flex">
+        <h1 className="text-2xl md:text-3xl text-gray-800 font-bold mb-1 mr-auto">
           {messageTitle}
         </h1>
-        <p>{messageContent}</p>
+        
+        <div>{messageContent}</div>
       </div>
     </div>
   );
@@ -31,6 +32,6 @@ export default WelcomeBanner;
 
 interface IWelcomeBanner {
   messageTitle: string;
-  messageContent: string;
+  messageContent: string | ReactNode;
   SVG: JSX.Element;
 }

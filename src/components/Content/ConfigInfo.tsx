@@ -19,9 +19,12 @@ export const ConfigInfo = () => {
   };
 
   const handleIPReset = () => {
+    if (globalState.get.deviceCommunicationInstance) {
+      globalState.get.deviceCommunicationInstance.stop();
+    }
     globalState.set.setClassificationState("");
     globalState.set.setNeuralNetworkIp("");
-    globalState.set.setClassificationState(processState[0]);
+    // globalState.set.setClassificationState(processState[0]);
   };
 
   return (

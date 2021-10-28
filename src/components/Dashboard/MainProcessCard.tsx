@@ -61,9 +61,14 @@ export const MainProcessCard = () => {
     if (globalState.get.deviceCommunicationInstance) {
       instance = globalState.get.deviceCommunicationInstance;
     } else {
-      instance = new DeviceCommunication(globalState.get.devicesIp, globalState.get.neuralNetworkIp);
-      instance.init();
+      instance = new DeviceCommunication(
+        globalState.get.devicesIp,
+        globalState.get.neuralNetworkIp,
+        globalState.get.classificationState,
+      );
     };
+
+    instance.init();
 
     const callback = (event: any) => {
       const { stage } = event.detail;

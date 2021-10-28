@@ -29,6 +29,24 @@ export const Dashboard = () => {
     }
   }, [globalState.get.classificationState, history]);
 
+  const handleStop = () => {
+    if (globalState.get.deviceCommunicationInstance) {
+      globalState.get.deviceCommunicationInstance.stop();
+    } else {
+      alert('No hay proceso para detener');
+    }
+  };
+
+  const handleInit = () => {
+    if (globalState.get.deviceCommunicationInstance) {
+      globalState.get.deviceCommunicationInstance.init();
+    } else {
+      alert('No hay proceso para continuar');
+    }
+  };
+
+  const handleIPChange = () => history.push('/');
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar
@@ -40,7 +58,28 @@ export const Dashboard = () => {
         Header={
           <WelcomeBanner
             messageTitle="Proceso iniciado⏱"
-            messageContent=""
+            messageContent={
+              <div>
+                <button 
+                  className="btn btn-primary mr-1.5"
+                  onClick={handleStop}
+                >
+                  Detener Proceso
+                </button>
+                <button 
+                  className="btn btn-primary mr-1.5"
+                  onClick={handleInit}
+                >
+                  Continuar Proceso
+                </button>
+                <button 
+                  className="btn btn-primary"
+                  onClick={handleIPChange}
+                >
+                  Reasignar Direcciones IP
+                </button>
+              </div>
+            }
             SVG={<MainSVG />}
           />
         }

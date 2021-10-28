@@ -16,21 +16,27 @@ export class DeviceCommunication extends EventTarget {
   devicesIp: string;
   neuralNetworkIp: string;
   private shouldStop: boolean;
-  private stage = processState[12]; // Inits in stage two, on init, scale as needed
+  private stage = processState[2]; // Inits in stage two, on init, scale as needed
 
   // For the classification process only
   image: null | Blob = null;
   classification: null | string = null;
 
-  constructor(devicesIp: string, neuralNetworkIp: string) {
+  constructor(devicesIp: string, neuralNetworkIp: string, initialStage: string | null) {
     super();
     this.devicesIp = devicesIp;
     this.neuralNetworkIp = neuralNetworkIp;
     this.shouldStop = false;
+    if(initialStage) this.stage = initialStage;
   }
 
   init() {
     console.log('Starting Main routing loop');
+
+    // This will avoid running the same instance more then once
+    // on multiple init calls across the app
+    if (this.shouldStop === false) return;
+
     const updateState = () => {
       const keys = Object.keys(processState);
       const ix = keys.findIndex((key, ix) => (processState[ix] === this.stage));
@@ -173,7 +179,7 @@ export class DeviceCommunication extends EventTarget {
           };
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         this.dispatchEvent(new CustomEvent('error', { detail: error }));
         this.stop(); // Auto Stop, let the user choose to reinit or not
       }

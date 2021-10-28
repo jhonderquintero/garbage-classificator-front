@@ -36,7 +36,7 @@ export const ConfigForm = () => {
     }
 
     if (notNullNeuralNetworkIp) {
-      globalState.set.setNeuralNetworkIp(neuralNetworkIp);
+      globalState.set.setNeuralNetworkIp(`http://${neuralNetworkIp}`);
       setFormError((prevState) => {
         return {
           ...prevState,
