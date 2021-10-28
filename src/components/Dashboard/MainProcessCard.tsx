@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IGlobalState,
   useGlobalStatecontext,
@@ -14,47 +14,6 @@ export const MainProcessCard = () => {
   const [actualLottieAnimation, setActualLottieAnimation] = useState(
     () => LottieAnimation1
   );
-
-  const handleNextClick = (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    if (globalState.get.classificationState === processState[2]) {
-      globalState.set.setClassificationState(processState[3]);
-    }
-    if (globalState.get.classificationState === processState[3]) {
-      globalState.set.setClassificationState(processState[4]);
-    }
-    if (globalState.get.classificationState === processState[4]) {
-      globalState.set.setClassificationState(processState[5]);
-    }
-    if (globalState.get.classificationState === processState[5]) {
-      globalState.set.setClassificationState(processState[6]);
-    }
-    if (globalState.get.classificationState === processState[6]) {
-      globalState.set.setClassificationState(processState[7]);
-    }
-    if (globalState.get.classificationState === processState[7]) {
-      globalState.set.setClassificationState(processState[8]);
-    }
-    if (globalState.get.classificationState === processState[8]) {
-      globalState.set.setClassificationState(processState[9]);
-    }
-    if (globalState.get.classificationState === processState[9]) {
-      globalState.set.setClassificationState(processState[10]);
-    }
-    if (globalState.get.classificationState === processState[10]) {
-      globalState.set.setClassificationState(processState[11]);
-    }
-    if (globalState.get.classificationState === processState[11]) {
-      globalState.set.setClassificationState(processState[12]);
-    }
-    if (globalState.get.classificationState === processState[12]) {
-      globalState.set.setClassificationState(processState[13]);
-    }
-    if (globalState.get.classificationState === processState[13]) {
-      globalState.set.setClassificationState(processState[2]);
-    }
-  };
 
   useEffect(() => { 
     let instance: null | DeviceCommunication = null;
@@ -90,7 +49,7 @@ export const MainProcessCard = () => {
     }
 
     return cleanUp;
-  }, [globalState.get.deviceCommunicationInstance, globalState.get.devicesIp, globalState.get.neuralNetworkIp, globalState.set]);
+  }, [globalState.get.classificationState, globalState.get.deviceCommunicationInstance, globalState.get.devicesIp, globalState.get.neuralNetworkIp, globalState.set]);
 
   useEffect(() => {
     console.log(globalState.get.classificationState);
@@ -140,10 +99,6 @@ export const MainProcessCard = () => {
         height={250}
         LottieAnimation={actualLottieAnimation}
       />
-
-      <button className="bg-blue-500" onClick={handleNextClick}>
-        Next
-      </button>
     </div>
   );
 };
