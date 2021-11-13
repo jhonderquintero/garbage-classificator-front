@@ -11,9 +11,9 @@ export const readSensor = async ({ ip, timeout = "60000", pin }: sensorArgs): Pr
   let url = '';
 
   if (timeout) {
-    console.log('Sensor without timeout')
     url = `${ip}/devices/IRsensor?pin=${pin}&timeout=${timeout}`;
   } else {
+    console.log('Sensor without timeout')
     url = `${ip}/devices/IRsensor?pin=${pin}`;
   }
 

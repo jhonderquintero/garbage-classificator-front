@@ -10,7 +10,8 @@ import { LottieComponent } from "./LottieComponent";
 
 export const MainProcessCard = () => {
   const globalState: IGlobalState = useGlobalStatecontext();
-  const [imgUrl, setImgUrl] = useState<string | null>('https://ricardoarriaga.com/wp-content/uploads/2015/03/Caja-de-canal-doble.jpg');
+  const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const [classification, setClassification] = useState<string | null>(null);
   const [actualLottieAnimation, setActualLottieAnimation] = useState(
     () => LottieAnimation1
   );
@@ -23,7 +24,8 @@ export const MainProcessCard = () => {
       instance = new DeviceCommunication(
         globalState.get.devicesIp,
         globalState.get.neuralNetworkIp,
-        globalState.get.classificationState,
+        null
+        // globalState.get.classificationState,
       );
 
       globalState.set.setDeviceCommunicationInstance(instance);
@@ -32,11 +34,16 @@ export const MainProcessCard = () => {
     instance.init();
 
     const callback = (event: any) => {
-      const { stage } = event.detail;
+      const { stage, url, classification } = event.detail;
       globalState.set.setClassificationState(stage);
+      if (url) setImgUrl(url);
+      if (classification) setClassification(classification);
 
       // Reset Image
-      if (stage === processState[2]) setImgUrl(null);
+      if (stage === processState[2]) {
+        setImgUrl(null);
+        setClassification(null);
+      }
     };
 
     const errorCallback = (event: any) => {
@@ -103,14 +110,14 @@ export const MainProcessCard = () => {
             ? "Encendiendo Motor..."
             : null}
           {globalState.get.classificationState === processState[10]
-            ? `Leyendo Sensor ${"Material"}`
+            ? `Leyendo Sensor ${classification || ''}`
             : null}
           {globalState.get.classificationState === processState[11] ||
           globalState.get.classificationState === processState[12]
-            ? `Activando Servomotor ${"Material"}`
+            ? `Activando Servomotor ${classification || ''}`
             : null}
           {globalState.get.classificationState === processState[13]
-            ? `Material Clasificado: ${"Material"} `
+            ? `Material Clasificado: ${classification || ''}`
             : null}
         </h2>
 
