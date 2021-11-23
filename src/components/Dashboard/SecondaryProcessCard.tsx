@@ -5,7 +5,6 @@ import {
 import LottieAnimation from "../../styles/lottiefiles/trackmachine.json";
 import { processState } from "../../helpers/types";
 import { LottieComponent } from "./LottieComponent";
-import { useEffect } from "react";
 
 export const SecondaryProcessCard = () => {
   const globalState: IGlobalState = useGlobalStatecontext();
@@ -13,7 +12,6 @@ export const SecondaryProcessCard = () => {
   const motorIsActive =
     globalState.get.classificationState === processState[3] ||
     globalState.get.classificationState === processState[4] ||
-    globalState.get.classificationState === processState[5] ||
     globalState.get.classificationState === processState[9] ||
     globalState.get.classificationState === processState[10];
 
@@ -30,7 +28,6 @@ export const SecondaryProcessCard = () => {
         width={250}
         isPaused={!motorIsActive}
         LottieAnimation={LottieAnimation}
-        autoPlay={!motorIsActive}
       />
     </div>
   );

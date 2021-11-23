@@ -20,6 +20,7 @@ export const takePicture = async (ip: string) => {
 export const displayString = async (ip: string, text: string) => {
   const url = `${ip}/devices/lcd-display?text=${text}`;
   await serverFetch(url);
+  await serverFetch(url);
 };
 
 export const moveServo = async (ip: string, pin: string, mode: '135' | '180') => {

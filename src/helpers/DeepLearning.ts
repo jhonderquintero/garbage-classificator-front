@@ -5,12 +5,10 @@ export const getClassification = async (ip: string, image: Blob | File) : Promis
   const formData = new FormData();
   formData.append('image', image);
 
-  const { classification, array } = await serverFetch(
-    url,
-    'POST',
-    { image: formData },
-    { 'Content-Type': 'multipart/form-data' } // The one that multer expects on the server
-  );
+  const { classification, array } = await fetch(url, {
+    method: 'POST',
+    body: formData,
+  }).then((data) => data.json());
 
   console.log('Prop array:', array);
   return classification;

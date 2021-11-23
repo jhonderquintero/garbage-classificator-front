@@ -8,13 +8,24 @@ import { processState } from "../../helpers/types";
 import LottieAnimation1 from "../../styles/lottiefiles/data.json";
 import { LottieComponent } from "./LottieComponent";
 
+const classificationParser = (classification: string | null) => {
+  switch (classification) {
+    case 'metal':
+      return 'Metal';
+    case 'paper':
+    case 'cardboard':
+      return 'Papel/Cartón';
+    case 'plastic':
+      return 'Plastico';
+    default:
+      return '';
+  }
+};
+
 export const MainProcessCard = () => {
   const globalState: IGlobalState = useGlobalStatecontext();
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   const [classification, setClassification] = useState<string | null>(null);
-  const [actualLottieAnimation, setActualLottieAnimation] = useState(
-    () => LottieAnimation1
-  );
 
   useEffect(() => { 
     let instance: null | DeviceCommunication = null;
@@ -25,7 +36,6 @@ export const MainProcessCard = () => {
         globalState.get.devicesIp,
         globalState.get.neuralNetworkIp,
         null
-        // globalState.get.classificationState,
       );
 
       globalState.set.setDeviceCommunicationInstance(instance);
@@ -34,13 +44,13 @@ export const MainProcessCard = () => {
     instance.init();
 
     const callback = (event: any) => {
-      const { stage, url, classification } = event.detail;
-      globalState.set.setClassificationState(stage);
+      const { nextStage, url, classification } = event.detail;
+      globalState.set.setClassificationState(nextStage);
       if (url) setImgUrl(url);
       if (classification) setClassification(classification);
 
       // Reset Image
-      if (stage === processState[2]) {
+      if (nextStage === processState[2]) {
         setImgUrl(null);
         setClassification(null);
       }
@@ -85,16 +95,16 @@ export const MainProcessCard = () => {
         }
       </div>
 
-      <div style={{ width: 'fit-content'}}>
-        <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center m-auto">
+      <div style={{ width: 'fit-content'}} className="m-auto">
+        <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center">
           {globalState.get.classificationState === processState[2]
             ? "Detectando material..."
             : null}
           {globalState.get.classificationState === processState[3]
             ? "Material Detectado"
             : null}
-          {globalState.get.classificationState === processState[4] ||
-          globalState.get.classificationState === processState[5]
+          {globalState.get.classificationState === processState[4]
+            || globalState.get.classificationState === processState[5]
             ? "Leyendo Sensor Infrarrojo en Cámara..."
             : null}
           {globalState.get.classificationState === processState[6]
@@ -110,21 +120,22 @@ export const MainProcessCard = () => {
             ? "Encendiendo Motor..."
             : null}
           {globalState.get.classificationState === processState[10]
-            ? `Leyendo Sensor ${classification || ''}`
+            ? `Leyendo Sensor ${classificationParser(classification)}`
             : null}
-          {globalState.get.classificationState === processState[11] ||
-          globalState.get.classificationState === processState[12]
-            ? `Activando Servomotor ${classification || ''}`
+          {globalState.get.classificationState === processState[11]
+            || globalState.get.classificationState === processState[12]
+            ? `Activando Servomotor ${classificationParser(classification)}`
             : null}
           {globalState.get.classificationState === processState[13]
-            ? `Material Clasificado: ${classification || ''}`
+            ? `Material Clasificado: ${classificationParser(classification)}`
             : null}
         </h2>
 
         <LottieComponent
           width={250}
           height={250}
-          LottieAnimation={actualLottieAnimation}
+          LottieAnimation={LottieAnimation1}
+          autoPlay={false}
         />
       </div>
     </div>

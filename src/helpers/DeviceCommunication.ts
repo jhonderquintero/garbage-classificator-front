@@ -31,8 +31,6 @@ export class DeviceCommunication extends EventTarget {
   }
 
   async init() {
-    console.log('Starting Main routing loop');
-
     // This will avoid running the same instance more then once
     // on multiple init calls across the app, must be stopped before init again
     if (this.shouldStop === false) return;
@@ -53,16 +51,10 @@ export class DeviceCommunication extends EventTarget {
     }
     
     try {
-      console.log(this.stage, this.shouldStop)
       while (!this.shouldStop) {
         if (this.stage === processState[2]) {
-          // Wait until object detected in the first sensor
           await displayString(this.devicesIp, encodeURI('Esperando\r\nMaterial'));
-          // Wait until object detected
-          while (!(await initialSensor(this.devicesIp))) {
-            console.log('Material no detectado en la entrada');
-            await sleep()
-          };
+          while (!(await initialSensor(this.devicesIp))) await sleep()
           updateState();
         };
 
@@ -73,10 +65,9 @@ export class DeviceCommunication extends EventTarget {
         };
       
         if (this.stage === processState[4]) {
-          while (!(await cameraSensor(this.devicesIp))) {
-            console.log('Material no detectado en modulo de camara');
-            await sleep();
-          }
+          while (!(await cameraSensor(this.devicesIp))) await sleep();
+          while (await cameraSensor(this.devicesIp)) await sleep();
+          await sleep(500);
           updateState();
         };
       
@@ -91,14 +82,12 @@ export class DeviceCommunication extends EventTarget {
         };
       
         if (this.stage === processState[7]) {
-        // Take picture
         const image = await takePicture(this.devicesIp);
-        await LEDPin(this.devicesIp, 'LOW'); // Turn off LEDs
+        await LEDPin(this.devicesIp, 'LOW');
         // Save image locally as blob to ease send it to the NN server
         this.image = await image.blob();
-        // Parse image as url
         const url = URL.createObjectURL(this.image);
-        console.log(url);
+
         // Send a custom event to allow the front end access the url image
         this.dispatchEvent(new CustomEvent('next', { detail: { nextStage: processState[8], url } }));
         this.stage = processState[8]; // Update stage for the new iteration
@@ -107,7 +96,7 @@ export class DeviceCommunication extends EventTarget {
         if (this.stage === processState[8]) {
         // Get classification from the Deep Learning server
           if (this.image) {
-            this.classification = 'metal';//await getClassification(this.devicesIp, this.image);
+            this.classification = await getClassification(this.neuralNetworkIp, this.image);
             this.dispatchEvent(new CustomEvent('next', {
               detail: {
                 nextStage: processState[9],
@@ -121,6 +110,16 @@ export class DeviceCommunication extends EventTarget {
         };
 
         if (this.stage === processState[9]) {
+          if (this.classification === 'metal') {
+            await displayString(this.devicesIp, encodeURI('Material:\r\nMetal'));
+          };
+          if (this.classification === 'plastic') {
+            await displayString(this.devicesIp, encodeURI('Material:\r\nPlastico'));
+          }
+          if (this.classification === 'paper' || this.classification === 'cardboard') {
+            await displayString(this.devicesIp, encodeURI('Papel\r\nCarton'));
+          };
+
           await changeMotorState(this.devicesIp, 'HIGH');
           updateState();
         };
@@ -128,26 +127,17 @@ export class DeviceCommunication extends EventTarget {
         if (this.stage === processState[10]) {
           // Read material sensor
           if (this.classification === 'metal') {
-            await displayString(this.devicesIp, encodeURI('Material:\r\nMetal'));
-            while (!(metalSensor(this.devicesIp))) {
-              console.log('Material no detectado en piston');
-              await sleep();
-            }
+            while (!(await metalSensor(this.devicesIp))) await sleep();
           };
           if (this.classification === 'plastic') {
-            await displayString(this.devicesIp, encodeURI('Material:\r\nPlastico'));
-            while (!(await plasticSensor(this.devicesIp))) {
-              console.log('Material no detectado en piston');
-              await sleep();
-            }
+            while (!(await plasticSensor(this.devicesIp))) await sleep();
           }
           if (this.classification === 'paper' || this.classification === 'cardboard') {
-            await displayString(this.devicesIp, encodeURI('Papel\r\nCarton'));
-            while (!(await paperSensor(this.devicesIp))) {
-              console.log('Material no detectado en piston');
-              await sleep();
-            }
+            while (!(await paperSensor(this.devicesIp))) await sleep();
           };
+
+          await sleep(2500);
+
           updateState();
         };
       
