@@ -67,7 +67,7 @@ export class DeviceCommunication extends EventTarget {
         if (this.stage === processState[4]) {
           while (!(await cameraSensor(this.devicesIp))) await sleep();
           while (await cameraSensor(this.devicesIp)) await sleep();
-          await sleep(500);
+          await sleep(1500);
           updateState();
         };
       
@@ -96,7 +96,8 @@ export class DeviceCommunication extends EventTarget {
         if (this.stage === processState[8]) {
         // Get classification from the Deep Learning server
           if (this.image) {
-            this.classification = await getClassification(this.neuralNetworkIp, this.image);
+            await sleep(20000)
+            this.classification = 'paper'//await getClassification(this.neuralNetworkIp, this.image);
             this.dispatchEvent(new CustomEvent('next', {
               detail: {
                 nextStage: processState[9],
@@ -117,7 +118,7 @@ export class DeviceCommunication extends EventTarget {
             await displayString(this.devicesIp, encodeURI('Material:\r\nPlastico'));
           }
           if (this.classification === 'paper' || this.classification === 'cardboard') {
-            await displayString(this.devicesIp, encodeURI('Papel\r\nCarton'));
+            await displayString(this.devicesIp, encodeURI('Material: Papel\r\nCarton'));
           };
 
           await changeMotorState(this.devicesIp, 'HIGH');
@@ -136,7 +137,7 @@ export class DeviceCommunication extends EventTarget {
             while (!(await paperSensor(this.devicesIp))) await sleep();
           };
 
-          await sleep(2500);
+          await sleep(5500);
 
           updateState();
         };

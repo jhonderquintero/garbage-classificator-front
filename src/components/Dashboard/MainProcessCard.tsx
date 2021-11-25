@@ -79,9 +79,8 @@ export const MainProcessCard = () => {
 
   return (
     <div className="img-container bg-blue col-span-8 bg-white shadow-lg rounded-sm border border-gray-200 flex flex-col justify-center p-4">
+        {imgUrl && (
       <div style={{ width: 'fit-content' }} className="mr-auto">
-        {
-          imgUrl && (
             <>
               <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center">Imagen Detectada</h2>
               <img
@@ -91,9 +90,8 @@ export const MainProcessCard = () => {
                 height="246"
               />
             </>
-          )
-        }
       </div>
+        )}
 
       <div style={{ width: 'fit-content'}} className="m-auto">
         <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center">
