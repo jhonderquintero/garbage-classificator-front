@@ -25,7 +25,7 @@ export const ConfigInfo = () => {
     if (globalState.get.deviceCommunicationInstance) {
       globalState.get.deviceCommunicationInstance.stop();
     }
-    globalState.set.removeDevicesIp();
+    globalState.set.removeDevicesIp("");
     globalState.set.removeNeuralNetworkIp("");
     globalState.set.setClassificationState(processState[0]);
   };

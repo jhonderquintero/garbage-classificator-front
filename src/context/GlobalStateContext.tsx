@@ -29,7 +29,8 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
     removeClassificationState,
   ] = useLocalStorageState("classification-state", processState[0]);
 
-  const [deviceCommunicationInstance, setDeviceCommunicationInstance] = useState<DeviceCommunication| null>(null);
+  const [deviceCommunicationInstance, setDeviceCommunicationInstance] =
+    useState<DeviceCommunication | null>(null);
 
   const state: IGlobalState = {
     // Getters
@@ -37,7 +38,7 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
       devicesIp,
       neuralNetworkIp,
       classificationState,
-      deviceCommunicationInstance
+      deviceCommunicationInstance,
     },
     // Setters
     set: {
@@ -47,16 +48,12 @@ export const GlobalStateContextProvider = ({ children, ...props }: any) => {
       removeDevicesIp,
       removeNeuralNetworkIp,
       removeClassificationState,
-      setDeviceCommunicationInstance
+      setDeviceCommunicationInstance,
     },
   };
 
   return (
-    <GlobalStateContext.Provider
-      value={state}
-      children={children}
-      {...props}
-    ></GlobalStateContext.Provider>
+    <GlobalStateContext.Provider value={state} children={children} {...props} />
   );
 };
 

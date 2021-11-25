@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ConfigForm } from "../components/Content/ConfigForm";
 import { Content } from "../components/Content/Content";
 import { GridWrapper } from "../components/GridWrapper";
@@ -11,6 +11,7 @@ import {
 import Sidebar from "../components/Sidebar";
 import WelcomeBanner from "../components/WelcomeBanner";
 import { ConfigInfo } from "../components/Content/ConfigInfo";
+import { processState } from "../helpers/types";
 
 export const MainPage = () => {
   // Design pattern recommended by Kent C. Dodds (Google Expert and creator of React Testing Library)
@@ -18,8 +19,7 @@ export const MainPage = () => {
 
   const [sidebarBoolean, setSidebarBoolean] = useState(true);
   const globalState: IGlobalState = useGlobalStatecontext();
-
-  const { devicesIp, neuralNetworkIp } = globalState.get;
+  const { classificationState } = globalState.get;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -31,14 +31,24 @@ export const MainPage = () => {
       <Content
         Header={
           <WelcomeBanner
-            messageTitle="Bienvenido 🤖"
-            messageContent="Para iniciar el proceso de clasificación de residuos sólidos inorgánicos debes llenar el formulario que se encuentra debajo con la información de tus dispositivos."
+            messageTitle={
+              classificationState === processState[0] ? "Bienvenido🤖" : ""
+            }
+            messageContent={
+              classificationState === processState[0]
+                ? "Para iniciar el proceso de clasificación de residuos sólidos inorgánicos debes llenar el formulario que se encuentra debajo con la información de tus dispositivos."
+                : "Puedes monitorizar el estado actual del proceso de clasificación de residuos sólidos inorgánicos, o si deseas puedes iniciarlo nuevamente o cambiar la configuración."
+            }
             SVG={<MainSVG />}
           />
         }
         CentralContent={
           <GridWrapper>
-            {(devicesIp === '' && neuralNetworkIp === '')? <ConfigForm /> : <ConfigInfo />}
+            {classificationState === processState[0] ? (
+              <ConfigForm />
+            ) : (
+              <ConfigInfo />
+            )}
             <LottieCard />
           </GridWrapper>
         }

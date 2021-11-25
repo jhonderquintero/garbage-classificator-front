@@ -6,7 +6,7 @@ const WelcomeBanner: React.FC<IWelcomeBanner> = ({
   SVG,
 }): JSX.Element => {
   return (
-    <div className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
+    <div className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-2">
       {/* Background illustration */}
 
       <div
@@ -17,11 +17,11 @@ const WelcomeBanner: React.FC<IWelcomeBanner> = ({
       </div>
 
       {/* Content */}
-      <div className="relative d-flex">
-        <h1 className="text-2xl md:text-3xl text-gray-800 font-bold mb-1 mr-auto">
+      <div>
+        <h1 className="text-2xl text-gray-800 font-bold mb-2 mr-auto ">
           {messageTitle}
         </h1>
-        
+
         <div>{messageContent}</div>
       </div>
     </div>

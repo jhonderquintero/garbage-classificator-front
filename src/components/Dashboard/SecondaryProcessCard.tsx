@@ -18,7 +18,11 @@ export const SecondaryProcessCard = () => {
   return (
     <div className="bg-blue col-span-4 bg-white shadow-lg rounded-sm border border-gray-200 flex flex-col justify-center p-4">
       <div>
-        <h2 className="text-2xl text-gray-800 font-bold mb-1 p-4 text-center">
+        <h2
+          className={`text-2xl ${
+            !motorIsActive ? "text-red-500" : "text-gray-800"
+          } font-bold mb-1 p-4 text-center`}
+        >
           {motorIsActive ? "Motor Encendido" : "Motor Apagado"}
         </h2>
       </div>
@@ -26,7 +30,7 @@ export const SecondaryProcessCard = () => {
       <LottieComponent
         height={250}
         width={250}
-        isPaused={!motorIsActive}
+        isPaused={false}
         LottieAnimation={LottieAnimation}
       />
     </div>

@@ -11,12 +11,15 @@ export const ConfigForm = () => {
 
   const [devicesIp, setDevicesIp] = useState<string>("");
   const [neuralNetworkIp, setNeuralNetworkIp] = useState<string>("");
-  const [formError, setFormError] = useState<IFormError | null>(null);
+  const [formError, setFormError] = useState<IFormError>({
+    devicesIpError: "",
+    neuralNetworkIp: "",
+  });
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const correctDevicesIp: boolean = validateIP(devicesIp);
-    const notNullNeuralNetworkIp: boolean = neuralNetworkIp !== "";
+    const isEmptyNeuralNetworkIp: boolean = !(neuralNetworkIp !== "");
 
     if (correctDevicesIp) {
       setFormError((prevState) => {
@@ -26,34 +29,39 @@ export const ConfigForm = () => {
         };
       });
       globalState.set.setDevicesIp(`http://${devicesIp}`);
-    } else {
+    }
+
+    if (!correctDevicesIp) {
       setFormError((prevState) => {
         return {
           ...prevState,
           devicesIpError: "IP de Raspberry Incorrecta.",
         };
       });
+      globalState.set.setDevicesIp("");
     }
 
-    if (notNullNeuralNetworkIp) {
-      globalState.set.setNeuralNetworkIp(`http://${neuralNetworkIp}`);
+    if (!isEmptyNeuralNetworkIp) {
       setFormError((prevState) => {
         return {
           ...prevState,
           neuralNetworkIp: "",
         };
       });
-    } else {
+      globalState.set.setNeuralNetworkIp(`http://${neuralNetworkIp}`);
+    }
+
+    if (isEmptyNeuralNetworkIp) {
       setFormError((prevState) => {
         return {
           ...prevState,
           neuralNetworkIp: "IP de Red Neuronal Incorrecta.",
         };
       });
+      globalState.set.setNeuralNetworkIp("");
     }
 
-    if (correctDevicesIp && notNullNeuralNetworkIp) {
-      setFormError(null);
+    if (!isEmptyNeuralNetworkIp && correctDevicesIp) {
       globalState.set.setClassificationState(processState[1]);
     }
   };

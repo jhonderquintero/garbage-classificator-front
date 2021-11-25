@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import { Content } from "../components/Content/Content";
+import { GridWrapper } from "../components/GridWrapper";
 import { MainProcessCard } from "../components/Dashboard/MainProcessCard";
 import { ProcessCard } from "../components/Dashboard/ProcessCard";
 import { SecondaryProcessCard } from "../components/Dashboard/SecondaryProcessCard";
-import { GridWrapper } from "../components/GridWrapper";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import Sidebar from "../components/Sidebar";
 import WelcomeBanner from "../components/WelcomeBanner";
 import {
   IGlobalState,
   useGlobalStatecontext,
 } from "../context/GlobalStateContext";
-import { processState } from "../helpers/types";
 import { MainSVG } from "../styles/svgs/MainSVG";
+import { processState } from "../helpers/types";
 
 export const Dashboard = () => {
   const [sidebarBoolean, setSidebarBoolean] = useState<boolean>(true);
@@ -33,7 +33,7 @@ export const Dashboard = () => {
     if (globalState.get.deviceCommunicationInstance) {
       globalState.get.deviceCommunicationInstance.stop();
     } else {
-      alert('No hay proceso para detener');
+      alert("No hay proceso para detener");
     }
   };
 
@@ -41,11 +41,11 @@ export const Dashboard = () => {
     if (globalState.get.deviceCommunicationInstance) {
       globalState.get.deviceCommunicationInstance.init();
     } else {
-      alert('No hay proceso para continuar');
+      alert("No hay proceso para continuar");
     }
   };
 
-  const handleIPChange = () => history.push('/');
+  const handleIPChange = () => history.push("/");
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -60,22 +60,13 @@ export const Dashboard = () => {
             messageTitle="Proceso iniciado⏱"
             messageContent={
               <div>
-                <button 
-                  className="btn btn-primary mr-1.5"
-                  onClick={handleStop}
-                >
+                <button className="btn btn-primary mr-1.5" onClick={handleStop}>
                   Detener Proceso
                 </button>
-                <button 
-                  className="btn btn-primary mr-1.5"
-                  onClick={handleInit}
-                >
+                <button className="btn btn-primary mr-1.5" onClick={handleInit}>
                   Continuar Proceso
                 </button>
-                <button 
-                  className="btn btn-primary"
-                  onClick={handleIPChange}
-                >
+                <button className="btn btn-primary" onClick={handleIPChange}>
                   Reasignar Direcciones IP
                 </button>
               </div>
