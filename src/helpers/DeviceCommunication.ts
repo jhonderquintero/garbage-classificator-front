@@ -96,8 +96,7 @@ export class DeviceCommunication extends EventTarget {
         if (this.stage === processState[8]) {
         // Get classification from the Deep Learning server
           if (this.image) {
-            await sleep(20000)
-            this.classification = 'paper'//await getClassification(this.neuralNetworkIp, this.image);
+            this.classification = await getClassification(this.neuralNetworkIp, this.image);
             this.dispatchEvent(new CustomEvent('next', {
               detail: {
                 nextStage: processState[9],
@@ -137,7 +136,7 @@ export class DeviceCommunication extends EventTarget {
             while (!(await paperSensor(this.devicesIp))) await sleep();
           };
 
-          await sleep(5500);
+          await sleep(4250);
 
           updateState();
         };
